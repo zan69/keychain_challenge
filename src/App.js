@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import Register from "./components/login/register/Register";
+import {ThemeProvider} from "@mui/material";
+import getTheme from "./theme";
+import {useMemo, useState} from "react";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Login from "./components/login/login/Login";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [mode, setMode] = useState('light');
+    const theme = useMemo(() => getTheme(mode), [mode])
+
+    const themeToggle = () => {
+        setMode((prevState) => prevState === 'light' ? 'dark' : 'light')
+    }
+
+    return (
+        <main>
+            <ThemeProvider theme={theme}>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/register" element={<Register themeToggle={themeToggle}/>}/>
+                        <Route path="/login" element={<Login themeToggle={themeToggle}/>}/>
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
+        </main>
+    );
 }
 
 export default App;
