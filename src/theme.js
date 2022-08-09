@@ -7,8 +7,8 @@ const getTheme = (mode) => {
             ...(mode === 'light' ? { // LIGHT THEME
                         primary: {
                             light: '#c795f4',
-                            main: '#882eb5',
-                            dark: '#45205d',
+                            main: '#b258d0',
+                            dark: '#8e43c3',
                             contrastText: '#252525',
                         },
                         secondary: {

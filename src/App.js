@@ -4,6 +4,8 @@ import getTheme from "./theme";
 import {useMemo, useState} from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from "./components/login/login/Login";
+import {NavbarProvider} from "./components/navbar/NavbarContext";
+import Homepage from "./components/homepage/Homepage";
 
 function App() {
 
@@ -17,12 +19,15 @@ function App() {
     return (
         <main>
             <ThemeProvider theme={theme}>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/register" element={<Register themeToggle={themeToggle}/>}/>
-                        <Route path="/login" element={<Login themeToggle={themeToggle}/>}/>
-                    </Routes>
-                </BrowserRouter>
+                <NavbarProvider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/register" element={<Register themeToggle={themeToggle}/>}/>
+                            <Route path="/login" element={<Login themeToggle={themeToggle}/>}/>
+                            <Route path="/homepage" element={<Homepage/>}/>
+                        </Routes>
+                    </BrowserRouter>
+                </NavbarProvider>
             </ThemeProvider>
         </main>
     );

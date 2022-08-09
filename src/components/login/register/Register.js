@@ -1,14 +1,18 @@
-import {useRef, useState, useEffect} from "react";
+import {useRef, useState, useEffect, useContext} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import {Info} from "@mui/icons-material";
 import ThemeToggleButton from "../../ThemeToggleButton";
 import {Link} from "react-router-dom";
+import NavbarContext from "../../navbar/NavbarContext";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const Register = ({themeToggle}) => {
+    const {setNavbarIsActive} = useContext(NavbarContext);
+    setNavbarIsActive(false);
+
     const emailRef = useRef();
 
     const [email, setEmail] = useState('');
