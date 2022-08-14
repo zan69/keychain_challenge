@@ -1,7 +1,7 @@
 import {createContext, useState} from "react";
 import Navbar from "./Navbar";
 
-const NavbarContext = createContext();
+const NavbarContext = createContext({});
 
 export function NavbarProvider({children}) {
     const [navbarIsActive, setNavbarIsActive] = useState(true)

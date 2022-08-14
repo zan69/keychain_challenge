@@ -1,32 +1,15 @@
-import Register from "./components/login/register/Register";
-import {ThemeProvider} from "@mui/material";
-import getTheme from "./theme";
-import {useMemo, useState} from "react";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Login from "./components/login/login/Login";
 import {NavbarProvider} from "./components/navbar/NavbarContext";
-import Homepage from "./components/homepage/Homepage";
+import AllRoutes from "./configs/AllRoutes";
+import {ThemeProvider} from "./configs/ThemeContext";
+import './mock-api';
 
 function App() {
 
-    const [mode, setMode] = useState('light');
-    const theme = useMemo(() => getTheme(mode), [mode])
-
-    const themeToggle = () => {
-        setMode((prevState) => prevState === 'light' ? 'dark' : 'light')
-    }
-
     return (
         <main>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider>
                 <NavbarProvider>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/register" element={<Register themeToggle={themeToggle}/>}/>
-                            <Route path="/login" element={<Login themeToggle={themeToggle}/>}/>
-                            <Route path="/homepage" element={<Homepage/>}/>
-                        </Routes>
-                    </BrowserRouter>
+                    <AllRoutes/>
                 </NavbarProvider>
             </ThemeProvider>
         </main>

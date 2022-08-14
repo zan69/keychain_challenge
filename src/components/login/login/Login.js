@@ -1,16 +1,13 @@
 import {useRef, useState, useEffect, useContext} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
-import ThemeToggleButton from "../../ThemeToggleButton";
-// noinspection ES6CheckImport
+import ThemeToggleButton from "../../common/ThemeToggleButton";
 import {Link, useNavigate} from "react-router-dom";
-import NavbarContext from "../../navbar/NavbarContext";
+import ThemeContext from "../../../configs/ThemeContext";
 
-const Login = ({themeToggle}) => {
-    const {setNavbarIsActive} = useContext(NavbarContext);
-    setNavbarIsActive(false);
+const Login = () => {
+    const {themeToggle} = useContext(ThemeContext);
     const navigate = useNavigate()
-
     const emailRef = useRef();
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
@@ -32,7 +29,7 @@ const Login = ({themeToggle}) => {
             setPwdError('Please enter your password')
         }
         console.log(e)
-        navigate("/homepage")
+        navigate("/home")
 
         // try {
         //     const response = await axios.post(REGISTER_URL,
@@ -76,7 +73,6 @@ const Login = ({themeToggle}) => {
                         id="outlined-email-input"
                         label="Email"
                         type="email"
-                        autoComplete="off"
                         value={email}
                         error={emailError.length > 0}
                         helperText={emailError}

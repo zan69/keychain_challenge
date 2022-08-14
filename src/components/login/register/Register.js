@@ -2,25 +2,25 @@ import {useRef, useState, useEffect, useContext} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import {Info} from "@mui/icons-material";
-import ThemeToggleButton from "../../ThemeToggleButton";
-import {Link} from "react-router-dom";
-import NavbarContext from "../../navbar/NavbarContext";
+import ThemeToggleButton from "../../common/ThemeToggleButton";
+import {Link, useNavigate} from "react-router-dom";
+import ThemeContext from "../../../configs/ThemeContext";
+import axios from '../../../api/axios';
 
-const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const REGISTER_URL = '/register';
 
-const Register = ({themeToggle}) => {
-    const {setNavbarIsActive} = useContext(NavbarContext);
-    setNavbarIsActive(false);
-
+const Register = () => {
     const emailRef = useRef();
-
+    const {themeToggle} = useContext(ThemeContext);
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
     const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
     const [matchPwd, setMatchPwd] = useState('');
     const [validMatch, setValidMatch] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         emailRef.current.focus();
@@ -44,32 +44,28 @@ const Register = ({themeToggle}) => {
             return;
         }
         console.log(e)
-        // try {
-        //     const response = await axios.post(REGISTER_URL,
-        //         JSON.stringify({email, pwd}),
-        //         {
-        //             headers: {'Content-Type': 'application/json'},
-        //             withCredentials: true
-        //         }
-        //     );
-        //     console.log(response?.data);
-        //     console.log(response?.accessToken);
-        //     console.log(JSON.stringify(response))
-        //     //clear state and controlled inputs
-        //     //need value attrib on inputs for this
-        //     setEmail('');
-        //     setPwd('');
-        //     setMatchPwd('');
-        // } catch (err) {
-        //     if (!err?.response) {
-        //         setErrMsg('No Server Response');
-        //     } else if (err.response?.status === 409) {
-        //         setErrMsg('Username Taken');
-        //     } else {
-        //         setErrMsg('Registration Failed')
-        //     }
-        //     errRef.current.focus();
-        // }
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({user: email, pwd}),
+                {
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }
+            );
+            console.log(response?.data);
+            console.log(response?.accessToken);
+            console.log(JSON.stringify(response))
+            //clear state and controlled inputs
+            //need value attrib on inputs for this
+            setEmail('');
+            setPwd('');
+            setMatchPwd('');
+            // TODO make tests
+            navigate('/home');
+        } catch (err) {
+            alert('Registration Failed')
+            console.log(err)
+        }
     }
 
     return (
@@ -156,6 +152,7 @@ const Register = ({themeToggle}) => {
                         disabled={!validEmail || !validPwd || !validMatch}
                         variant="contained"
                         color="primary"
+                        type="submit"
                         fullWidth
                         disableElevation
                         sx={{marginY: 1}}

@@ -9,7 +9,7 @@ export default function Navbar() {
     const {navbarIsActive} = useContext(NavbarContext)
 
     if (!navbarIsActive) {
-        return
+        return null
     }
 
     return (

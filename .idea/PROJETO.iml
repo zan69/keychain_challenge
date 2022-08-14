@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tailwind-1" />
+    <orderEntry type="module" module-name="Fuse-React-v8.0.0-demo" />
   </component>
 </module>
