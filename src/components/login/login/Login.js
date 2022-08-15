@@ -1,13 +1,20 @@
-import {useRef, useState, useEffect, useContext} from "react";
+import {useRef, useState, useEffect} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import ThemeToggleButton from "../../common/ThemeToggleButton";
-import {Link, useNavigate} from "react-router-dom";
-import ThemeContext from "../../../configs/ThemeContext";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import axios from "../../../api/axios";
+import useAuth from "../../../hooks/useAuth";
+
+const LOGIN_URL = '/login'
 
 const Login = () => {
-    const {themeToggle} = useContext(ThemeContext);
-    const navigate = useNavigate()
+    const {setAuth} = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
     const emailRef = useRef();
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
@@ -28,35 +35,21 @@ const Login = () => {
         if (pwd.length === 0) {
             setPwdError('Please enter your password')
         }
-        console.log(e)
-        navigate("/home")
 
-        // try {
-        //     const response = await axios.post(REGISTER_URL,
-        //         JSON.stringify({email, pwd}),
-        //         {
-        //             headers: {'Content-Type': 'application/json'},
-        //             withCredentials: true
-        //         }
-        //     );
-        //     console.log(response?.data);
-        //     console.log(response?.accessToken);
-        //     console.log(JSON.stringify(response))
-        //     //clear state and controlled inputs
-        //     //need value attrib on inputs for this
-        //     setEmail('');
-        //     setPwd('');
-        //     setMatchPwd('');
-        // } catch (err) {
-        //     if (!err?.response) {
-        //         setErrMsg('No Server Response');
-        //     } else if (err.response?.status === 409) {
-        //         setErrMsg('Username Taken');
-        //     } else {
-        //         setErrMsg('Registration Failed')
-        //     }
-        //     errRef.current.focus();
-        // }
+        try {
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify({user: email, pwd}),
+                {
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }
+            );
+            setAuth({user: email, accessToken: response.data.accessToken, roles: response.data.roles}); // TODO
+            navigate(from, {replace: true});
+        } catch (err) {
+            alert('login error');
+            console.log(err);
+        }
     }
 
     return (
@@ -109,7 +102,19 @@ const Login = () => {
                     Not registered yet?
                     <Link to="/register" className="ml-3 text-blue-500 hover:underline">Create an account</Link>
                 </Typography>
-                <ThemeToggleButton themeToggle={themeToggle}/>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        width: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'primary.contrastText',
+                        borderRadius: 1,
+                        p: 1,
+                    }}
+                >
+                    <ThemeToggleButton showText={true}/>
+                </Box>
             </Box>
         </Box>
     )

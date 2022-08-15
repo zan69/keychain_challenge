@@ -1,6 +1,6 @@
 import {createContext, useMemo, useState} from "react";
 import {ThemeProvider as MuiThemeProvider} from "@mui/material";
-import getTheme from "./theme";
+import getTheme from "../configs/theme";
 
 const ThemeContext = createContext({});
 

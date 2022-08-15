@@ -3,13 +3,15 @@ import HomepageConfig from "../components/homepage/HomepageConfig";
 import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom";
 import NavbarContext from "../components/navbar/NavbarContext";
 import LoginConfig from "../components/login/LoginConfig";
+import RequireAuth from "../components/RequireAuth";
 
 const defaultRoute = {
     settings: {
         navBar: true,
     },
     path: '*',
-    element: <Navigate to='/home'/>,
+    element: <Navigate to='/home' replace/>,
+    roles: ['user'],
 }
 
 const routes = [
@@ -33,11 +35,12 @@ const AllRoutes = () => {
         <BrowserRouter>
             <Routes>
                 {routes.map((route) =>
-                    <Route
-                        key={route.path}
-                        path={route.path}
-                        element={<MyRoute {...route}/>}
-                    />
+                    <Route key={route.path} element={<RequireAuth allowedRoles={route.allowedRoles}/>}>
+                        <Route
+                            path={route.path}
+                            element={<MyRoute {...route}/>}
+                        />
+                    </Route>
                 )}
             </Routes>
         </BrowserRouter>

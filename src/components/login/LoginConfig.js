@@ -8,6 +8,7 @@ const LoginConfig = [
         },
         path: 'login',
         element: <Login/>,
+        allowedRoles: null,
     },
     {
         settings: {
@@ -15,6 +16,7 @@ const LoginConfig = [
         },
         path: 'register',
         element: <Register/>,
+        allowedRoles: null,
     }
 ]
 

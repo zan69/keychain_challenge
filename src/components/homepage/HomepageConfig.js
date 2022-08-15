@@ -6,6 +6,7 @@ const HomepageConfig = {
     },
     path: 'home',
     element: <Homepage/>,
+    allowedRoles: ['user'],
 }
 
 export default HomepageConfig;
